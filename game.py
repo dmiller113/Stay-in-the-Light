@@ -1,6 +1,6 @@
 import libtcodpy as libtcod
 import constants as const
-import engine
+from engine import gEngine
 
 gameState = "playing"
 
@@ -20,8 +20,8 @@ def gameLoop():
 	while not libtcod.console_is_window_closed() and gameState != "gameDone":
 		libtcod.console_set_default_foreground(const.root, libtcod.white)
 		libtcod.console_clear(const.root)
-		libtcod.console_put_char(const.root, engine.player_x, engine.player_y, '@',
-			libtcod.BKGND_NONE)
+		libtcod.console_put_char(const.root, gEngine.player.x, 
+			gEngine.player.y, gEngine.player.symbol, libtcod.BKGND_NONE)
 		libtcod.console_flush()
 		key = libtcod.console_check_for_keypress(libtcod.KEY_PRESSED)
 		handleInput(key)
@@ -32,13 +32,13 @@ def handleInput(key):
 	global gameState
 	if key.vk != libtcod.KEY_NONE:
 		if key.c == ord('4'):
-			engine.player_x -= 1
+			gEngine.player.x -= 1
 		elif key.c == ord('6'):
-			engine.player_x += 1
+			gEngine.player.x += 1
 		elif key.c == ord('8'):
-			engine.player_y -= 1
+			gEngine.player.y -= 1
 		elif key.c == ord('2'):
-			engine.player_y += 1
+			gEngine.player.y += 1
 		elif key.c == ord('q'):
 			gameState = "gameDone"
 	return
