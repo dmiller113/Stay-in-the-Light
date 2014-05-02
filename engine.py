@@ -39,6 +39,9 @@ class Engine:
 		#Show dem changes
 		libtcod.console_flush()
 
+	#Draws the lines that border the UI.
+	#Takes nothing
+	#----------------------------------------------------------------------------
 	def drawUILines(self):
 		#The top and bottom border
 		for x in range(const.consoleWidth):
@@ -70,4 +73,5 @@ class Engine:
 		 	libtcod.white, libtcod.black)
 
 		libtcod.console_flush()
+
 gEngine = Engine()
