@@ -12,17 +12,17 @@ def programSetup():
 	libtcod.sys_set_fps(const.fps)
 	libtcod.console_init_root(const.consoleWidth, const.consoleHeight, 
 		'python/libtcod tutorial')
+	libtcod.console_set_default_foreground(const.root, libtcod.white)
+	libtcod.console_clear(const.root)
+	gEngine.drawUILines()
+
 
 
 # MAIN GAME LOOP FUNCTION
 # -----------------------------------------------------------------------------
 def gameLoop():
 	while not libtcod.console_is_window_closed() and gameState != "gameDone":
-		libtcod.console_set_default_foreground(const.root, libtcod.white)
-		libtcod.console_clear(const.root)
-		libtcod.console_put_char(const.root, gEngine.player.x, 
-			gEngine.player.y, gEngine.player.symbol, libtcod.BKGND_NONE)
-		libtcod.console_flush()
+		gEngine.drawFrame()
 		key = libtcod.console_check_for_keypress(libtcod.KEY_PRESSED)
 		handleInput(key)
 
