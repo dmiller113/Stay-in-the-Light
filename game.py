@@ -7,10 +7,10 @@ gameState = "playing"
 # Sets up for the program
 # -----------------------------------------------------------------------------
 def programSetup():
-	libtcod.console_set_custom_font(const.fontName, 
+	libtcod.console_set_custom_font(const.fontName,
 		libtcod.FONT_TYPE_GREYSCALE | libtcod.FONT_LAYOUT_TCOD)
 	libtcod.sys_set_fps(const.fps)
-	libtcod.console_init_root(const.consoleWidth, const.consoleHeight, 
+	libtcod.console_init_root(const.consoleWidth, const.consoleHeight,
 		'python/libtcod tutorial')
 	libtcod.console_set_default_foreground(const.root, libtcod.white)
 	libtcod.console_clear(const.root)

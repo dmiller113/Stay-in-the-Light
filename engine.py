@@ -3,6 +3,7 @@
 import constants as const
 import libtcodpy as libtcod
 from actor import Actor
+from map import Tile, Map
 
 #Global
 #------------------------------------------------------------------------------
@@ -45,29 +46,29 @@ class Engine:
 	def drawUILines(self):
 		#The top and bottom border
 		for x in range(const.consoleWidth):
-			libtcod.console_put_char_ex(const.root, x, 0, libtcod.CHAR_HLINE, 
+			libtcod.console_put_char_ex(const.root, x, 0, libtcod.CHAR_HLINE,
 				libtcod.white, libtcod.black)
-			libtcod.console_put_char_ex(const.root, x, const.consoleHeight-1, 
+			libtcod.console_put_char_ex(const.root, x, const.consoleHeight-1,
 				libtcod.CHAR_HLINE, libtcod.white, libtcod.black)
-			libtcod.console_put_char_ex(const.root, x, const.mapHeight+1, 
+			libtcod.console_put_char_ex(const.root, x, const.mapHeight+1,
 				libtcod.CHAR_HLINE, libtcod.white, libtcod.black)
 
-		#The left and right border	
+		#The left and right border
 		for y in range(const.consoleHeight):
-			libtcod.console_put_char_ex(const.root, 0, y, '|', 
+			libtcod.console_put_char_ex(const.root, 0, y, '|',
 				libtcod.white, libtcod.black)
-			libtcod.console_put_char_ex(const.root, const.consoleWidth-1, y, '|', 
+			libtcod.console_put_char_ex(const.root, const.consoleWidth-1, y, '|',
 				libtcod.white, libtcod.black)
 			if(y <= const.mapHeight and y > 0):
-				libtcod.console_put_char_ex(const.root, const.mapWidth+1, y, '|', 
+				libtcod.console_put_char_ex(const.root, const.mapWidth+1, y, '|',
 					libtcod.white, libtcod.black)
 
 		#The corners
-		libtcod.console_put_char_ex(const.root, const.consoleWidth-1, 
-			const.consoleHeight-1, '#', libtcod.white, libtcod.black)		
-		libtcod.console_put_char_ex(const.root, 0, 
+		libtcod.console_put_char_ex(const.root, const.consoleWidth-1,
 			const.consoleHeight-1, '#', libtcod.white, libtcod.black)
-		libtcod.console_put_char_ex(const.root, 0, 0, '#', libtcod.white, 
+		libtcod.console_put_char_ex(const.root, 0,
+			const.consoleHeight-1, '#', libtcod.white, libtcod.black)
+		libtcod.console_put_char_ex(const.root, 0, 0, '#', libtcod.white,
 			libtcod.black)
 		libtcod.console_put_char_ex(const.root, const.consoleWidth-1, 0, '#',
 		 	libtcod.white, libtcod.black)
