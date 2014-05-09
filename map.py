@@ -2,7 +2,7 @@
 #------------------------------------------------------------------------------
 import constants as const
 import libtcodpy as libtcod
-
+import sys
 #Classes
 #------------------------------------------------------------------------------
 class Tile:
@@ -38,4 +38,13 @@ class Map:
   def __init__(self, randSeed = 113113113):
     self.randSeed = randSeed
     self.curMap = [[Tile('#', libtcod.white, libtcod.black, True, False) for
-      x in range(const.mapWidth)] for y in range(const.mapHeight)]
+      y in range(const.mapHeight)] for x in range(const.mapWidth)]
+
+  # Draw function. Calls the draw function of each tile in the current map.
+  # Takes a libtcod console to draw on
+  #----------------------------------------------------------------------------
+  def draw(self, console):
+    for y in range(const.mapHeight):
+      for x in range(const.mapWidth):
+        self.curMap[x][y].draw(console)
+

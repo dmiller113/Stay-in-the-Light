@@ -17,7 +17,7 @@ class Engine:
 	#----------------------------------------------------------------------------
 	def __init__(self):
 		self.player = Actor(const.mapWidth/2, const.mapHeight/2)
-
+		self.curMap = Map()
 	#Draw function
 	# Takes nothing.
 	#----------------------------------------------------------------------------
