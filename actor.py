@@ -23,5 +23,11 @@ class Actor:
 	# Takes a libtcod console on which to draw on.
 	#----------------------------------------------------------------------------
 	def draw(self, console):
-		libtcod.console_put_char_ex(console, self.x, self.y, self.symbol, 
+		libtcod.console_put_char_ex(console, self.x, self.y, self.symbol,
 			self.frontColor, self.backColor)
+
+	# Movement function. Checks for nothing with X,Y so avoid passing bad values.
+	# Takes the new position of the Actor
+	def move(self, x, y):
+		self.x = x
+		self.y = y
