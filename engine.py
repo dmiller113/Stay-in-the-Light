@@ -26,12 +26,15 @@ class Engine:
 		# messages)
 		mapConsole = libtcod.console_new(const.mapWidth, const.mapHeight)
 
+		#Draw the map to screen
+		self.curMap.draw(mapConsole)
+
 		#Draw the actors to the mapConsole. Save the player for last.
 		# draw dem actors.
 
+
 		#Draw the player.
 		self.player.draw(mapConsole)
-
 
 
 		#Blit all the offscreen consoles to the root
@@ -74,5 +77,9 @@ class Engine:
 		 	libtcod.white, libtcod.black)
 
 		libtcod.console_flush()
+
+	def isTileWalkable(self, tileX, tileY):
+		if( (tileY < const.mapHeight and tileY >= 0) and (tileX < const.mapWidth and tileX >= 0)):
+			return not self.curMap.curMap[tileX][tileY].blocking
 
 gEngine = Engine()

@@ -3,6 +3,7 @@ import constants as const
 from engine import gEngine
 
 gameState = "playing"
+playerState = "idle"
 
 # Sets up for the program
 # -----------------------------------------------------------------------------
@@ -11,7 +12,7 @@ def programSetup():
 		libtcod.FONT_TYPE_GREYSCALE | libtcod.FONT_LAYOUT_TCOD)
 	libtcod.sys_set_fps(const.fps)
 	libtcod.console_init_root(const.consoleWidth, const.consoleHeight,
-		'python/libtcod tutorial')
+		'Stay in the Light')
 	libtcod.console_set_default_foreground(const.root, libtcod.white)
 	libtcod.console_clear(const.root)
 	gEngine.drawUILines()
@@ -30,15 +31,31 @@ def gameLoop():
 # -----------------------------------------------------------------------------
 def handleInput(key):
 	global gameState
+	global playerState
 	if key.vk != libtcod.KEY_NONE:
+		cx = 0
+		cy = 0
 		if key.c == ord('4'):
-			gEngine.player.x -= 1
+			cx -= 1
+			playerState = "moving"
 		elif key.c == ord('6'):
-			gEngine.player.x += 1
+			cx += 1
+			playerState = "moving"
 		elif key.c == ord('8'):
-			gEngine.player.y -= 1
+			cy -= 1
+			playerState = "moving"
 		elif key.c == ord('2'):
-			gEngine.player.y += 1
+			cy += 1
+			playerState = "moving"
+		elif key.c == ord('5'):
+			playerState = "moving"
 		elif key.c == ord('q'):
 			gameState = "gameDone"
+
+		if(playerState == "moving"):
+			if( gEngine.isTileWalkable(cx + gEngine.player.x, cy + gEngine.player.y) ):
+				playerState = "moved"
+				gEngine.player.move(cx + gEngine.player.x, cy + gEngine.player.y)
+			else:
+				playerState = "idle"
 	return
