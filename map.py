@@ -20,6 +20,8 @@ class Tile:
       self.blocking = blocking
       self.transparent = transparent
       self.seen = seen
+      self.light_level = 0.5
+      self.light_list = 0
     else:
       print setType
 
@@ -29,13 +31,13 @@ class Tile:
   #----------------------------------------------------------------------------
   def draw(self, console, x, y):
     libtcod.console_put_char_ex(console, x, y, self.symbol,
-      self.foreColor, self.backColor)
+      self.foreColor * self.light_level, self.backColor)
 
 class Map:
   #Constructor
   #takes a seed to stick in the random generator
   #----------------------------------------------------------------------------
-  def __init__(self, randSeed = 113113113):
+  def __init__(self, randSeed = const.debugRandomSeed):
     self.randSeed = randSeed
     self.createMap(self.randSeed)
 
@@ -47,21 +49,32 @@ class Map:
       for x in range(const.mapWidth):
         self.curMap[x][y].draw(console, x, y)
 
+  # Map creation function. Calls the debug map creation if the randomSeed is
+  # equal to the debug value.
+  # Takes a randomSeed to base the random number generator on.
+  #----------------------------------------------------------------------------
   def createMap(self, randSeed):
-    if randSeed == 113113113:
-      self.curMap = [[Tile('.', libtcod.white, libtcod.black, False, True) for
-        y in range(const.mapHeight)] for x in range(const.mapWidth)]
-      for x in range(const.mapWidth):
-        self.curMap[x][0].symbol = '#'
-        self.curMap[x][0].blocking = True
-        self.curMap[x][0].transparent = False
-        self.curMap[x][const.mapHeight-1].symbol = '#'
-        self.curMap[x][const.mapHeight-1].blocking = True
-        self.curMap[x][const.mapHeight-1].transparent = False
-      for y in range(const.mapHeight):
-        self.curMap[0][y].symbol = '#'
-        self.curMap[0][y].blocking = True
-        self.curMap[0][y].transparent = False
-        self.curMap[const.mapWidth-1][y].symbol = '#'
-        self.curMap[const.mapWidth-1][y].blocking = True
-        self.curMap[const.mapWidth-1][y].transparent = False
+    if randSeed == const.debugRandomSeed:
+      self.debugMap()
+
+  # Debug map creation function. Creates a blank room with various objects to
+  # test various functions, abilities, and effects.
+  # Takes nothing.
+  #----------------------------------------------------------------------------
+  def debugMap(self):
+    self.curMap = [[Tile('.', libtcod.white, libtcod.black, False, True) for
+      y in range(const.mapHeight)] for x in range(const.mapWidth)]
+    for x in range(const.mapWidth):
+      self.curMap[x][0].symbol = '#'
+      self.curMap[x][0].blocking = True
+      self.curMap[x][0].transparent = False
+      self.curMap[x][const.mapHeight-1].symbol = '#'
+      self.curMap[x][const.mapHeight-1].blocking = True
+      self.curMap[x][const.mapHeight-1].transparent = False
+    for y in range(const.mapHeight):
+      self.curMap[0][y].symbol = '#'
+      self.curMap[0][y].blocking = True
+      self.curMap[0][y].transparent = False
+      self.curMap[const.mapWidth-1][y].symbol = '#'
+      self.curMap[const.mapWidth-1][y].blocking = True
+      self.curMap[const.mapWidth-1][y].transparent = False

@@ -4,6 +4,7 @@ import constants as const
 import libtcodpy as libtcod
 from actor import Actor
 from map import Tile, Map
+import math
 
 #Global
 #------------------------------------------------------------------------------
@@ -79,7 +80,12 @@ class Engine:
 		libtcod.console_flush()
 
 	def isTileWalkable(self, tileX, tileY):
-		if( (tileY < const.mapHeight and tileY >= 0) and (tileX < const.mapWidth and tileX >= 0)):
+		if( (tileY < const.mapHeight and tileY >= 0) and (tileX < const.mapWidth
+		and tileX >= 0)):
 			return not self.curMap.curMap[tileX][tileY].blocking
+
+	def findDistance(self, tileX1, tileY1, tileX2, tileY2):
+		distance = math.sqrt((tileX1 - tileX2)**2 + (tileY1 - tileY2)**2)
+		return distance
 
 gEngine = Engine()
