@@ -79,13 +79,40 @@ class Engine:
 
 		libtcod.console_flush()
 
+	#Checks that the specified tile is a tile can be walked on.
+	#Takes the x,y coord of the tile
+	#Returns true if the tile is a valid tile, and could be walked on.
+	#----------------------------------------------------------------------------
 	def isTileWalkable(self, tileX, tileY):
 		if( (tileY < const.mapHeight and tileY >= 0) and (tileX < const.mapWidth
 		and tileX >= 0)):
 			return not self.curMap.curMap[tileX][tileY].blocking
 
+	#Finds the distance between two tiles.
+	#Takes the x,y coords of two tiles, in (x1, y1, x2, y2) order
+	#Returns the distance between the tiles
+	#----------------------------------------------------------------------------
 	def findDistance(self, tileX1, tileY1, tileX2, tileY2):
 		distance = math.sqrt((tileX1 - tileX2)**2 + (tileY1 - tileY2)**2)
 		return distance
+
+	#Grabs a circular area of tiles based upon a center and a radius.
+	#Takes the x,y coords of the center tile and the radius. Radius 1 returns
+	#only the center tile.
+	#Returns a list of tiles in the area
+	#----------------------------------------------------------------------------
+	def findArea(self, tileX, tileY, radius = 2):
+		radius -= 1
+		if( (tileX - radius < 0 or tileX + (radius + 1) >= const.mapWidth)
+		or (tileY - radius < 0 or tileY + (radius + 1) >= const.mapHeight) ):
+			return None
+		returnList = []
+		#This method is pretty bad for anything larger than radius 4
+		for x in range( (tileX - radius), (tileX + (radius + 1)) ):
+			for y in range( (tileY - radius), (tileY + (radius + 1)) ):
+				if self.findDistance(tileX, tileY, x, y) <= radius:
+					returnList.append(self.curMap.curMap[x][y])
+		return returnList
+
 
 gEngine = Engine()
