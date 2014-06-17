@@ -3,6 +3,7 @@
 import constants as const
 import libtcodpy as libtcod
 from actor import Actor
+import lightSource as light
 from map import Tile, Map
 import math
 
@@ -19,8 +20,12 @@ class Engine:
 	def __init__(self):
 		self.player = Actor(const.mapWidth/2, const.mapHeight/2)
 		self.curMap = Map()
+		x = Actor(4,5)
+		y = light.LightSource()
+		x.addComponent(y)
+
 	#Draw function
-	# Takes nothing.
+	#Takes nothing.
 	#----------------------------------------------------------------------------
 	def drawFrame(self):
 		# Setup some offscreen consoles for each element of the UI (Map, status,
@@ -113,6 +118,18 @@ class Engine:
 				if self.findDistance(tileX, tileY, x, y) <= radius:
 					returnList.append(self.curMap.curMap[x][y])
 		return returnList
-
+	#Grabs a circular area of tiles based upon a center and a radius.
+	#Takes the x,y coords of the center tile and the radius.
+	#Sets the passed lightMap to the region made in the function
+	#----------------------------------------------------------------------------
+	def findLightingMap(self, centerX, centerY, radius = 2, lightMap = None):
+		if lightMap is None:
+			return
+		curMap = self.curMap.curMap
+		lightMap = libtcod.map_new(radius*2, radius*2)
+		for x in range( (tileX - radius), (tileX + (radius + 1)) ):
+			for y in range( (tileY - radius), (tileY + (radius + 1)) ):
+				libtcod.map_set_properties(lightMap, x, y, curMap[x][y].transparent,
+					(not curMap[x][y].blocking) )
 
 gEngine = Engine()

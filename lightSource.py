@@ -1,7 +1,8 @@
 #Imports
 #------------------------------------------------------------------------------
-import engine
 import libtcodpy as libtcod
+from engine import gEngine
+
 #Classes
 #------------------------------------------------------------------------------
 class LightSource:
@@ -17,6 +18,8 @@ class LightSource:
     self.distance = distance
     self.lifetime = lifetime
     self.light_color = light_color
+    self.light_map = None
+    self.needs_remapping = True
 
   # Burn.
   # Simple function, reduces the lifetime of a lightsource by the passed value.
@@ -33,3 +36,8 @@ class LightSource:
     else:
       self.lifetime -= value
 
+  # Setup function, gets called after this is composed onto the base actor
+  # Contains the construction parts that would require the base actor.
+  def setup(self):
+    parent = self.parent
+    gEngine.findLightingMap(parent.x, parent.y, self.distance, self.light_map)

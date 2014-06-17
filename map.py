@@ -78,3 +78,6 @@ class Map:
       self.curMap[const.mapWidth-1][y].symbol = '#'
       self.curMap[const.mapWidth-1][y].blocking = True
       self.curMap[const.mapWidth-1][y].transparent = False
+    self.curMap[21][29].symbol = '#'
+    self.curMap[21][29].blocking = True
+    self.curMap[21][29].transparent = False

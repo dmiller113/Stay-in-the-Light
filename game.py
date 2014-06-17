@@ -28,7 +28,7 @@ def gameLoop():
 		handleInput(key)
 
 def funkyLight():
-	tiles = gEngine.findArea(22,30,5)
+	tiles = gEngine.findArea(22,30,9)
 	for tile in tiles:
 		tile.foreColor = libtcod.orange
 		tile.backColor = libtcod.blue

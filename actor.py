@@ -2,6 +2,7 @@
 #------------------------------------------------------------------------------
 import libtcodpy as libtcod
 import lightSource as light
+
 #Classes
 #------------------------------------------------------------------------------
 class Actor:
@@ -17,6 +18,7 @@ class Actor:
 		self.symbol = symbol
 		self.frontColor = frontColor
 		self.backColor = backColor
+		self.parts = {"LightSource": None}
 
 	# Draw function. Puts the symbol on the screen at its x,y position using
 	# its fore and back colors.
@@ -31,3 +33,17 @@ class Actor:
 	def move(self, x, y):
 		self.x = x
 		self.y = y
+
+	# Add component function.
+	# Checks that the passed object isn't none, and then sets the object.parent
+	# back to this object, then calls the objects setup so it can construct
+	# things that it needs the parent actor for.
+	# Takes an object to compose onto the actor
+	def addComponent(self, composeObject):
+		if composeObject is None:
+			return
+		className = composeObject.__class__.__name__
+		if className in self.parts:
+			self.parts[className] = composeObject
+			composeObject.parent = self
+			composeObject.setup()
