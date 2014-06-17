@@ -2,8 +2,6 @@
 #------------------------------------------------------------------------------
 import constants as const
 import libtcodpy as libtcod
-from actor import Actor
-import lightSource as light
 from map import Tile, Map
 import math
 
@@ -17,10 +15,12 @@ class Engine:
 	# Constructor
 	# Takes nothing so far.
 	#----------------------------------------------------------------------------
-	def __init__(self):
-		self.player = Actor(const.mapWidth/2, const.mapHeight/2)
+	def setup(self):
+		import actor
+		import lightSource as light
+		self.player = actor.Actor(const.mapWidth/2, const.mapHeight/2)
 		self.curMap = Map()
-		x = Actor(4,5)
+		x = actor.Actor(4,5)
 		y = light.LightSource()
 		x.addComponent(y)
 
@@ -133,3 +133,4 @@ class Engine:
 					(not curMap[x][y].blocking) )
 
 gEngine = Engine()
+gEngine.setup()

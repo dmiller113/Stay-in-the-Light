@@ -1,7 +1,6 @@
 #Imports
 #------------------------------------------------------------------------------
 import libtcodpy as libtcod
-from engine import gEngine
 
 #Classes
 #------------------------------------------------------------------------------
@@ -39,5 +38,7 @@ class LightSource:
   # Setup function, gets called after this is composed onto the base actor
   # Contains the construction parts that would require the base actor.
   def setup(self):
+    #import
+    from engine import gEngine
     parent = self.parent
     gEngine.findLightingMap(parent.x, parent.y, self.distance, self.light_map)
