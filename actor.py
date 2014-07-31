@@ -14,21 +14,23 @@ class Actor:
     # -------------------------------------------------------------------------
 
     def __init__(self, x=0, y=0, symbol='@', frontColor=libtcod.white,
-                 backColor=libtcod.black):
+                 backColor=libtcod.black, visible=True):
         self.x = x
         self.y = y
         self.symbol = symbol
         self.frontColor = frontColor
         self.backColor = backColor
         self.parts = {"LightSource": None}
+        self.visible = visible
 
     # Draw function. Puts the symbol on the screen at its x,y position using
     # its fore and back colors.
     # Takes a libtcod console on which to draw on.
     # -------------------------------------------------------------------------
     def draw(self, console):
-        libtcod.console_put_char_ex(console, self.x, self.y, self.symbol,
-                                    self.frontColor, self.backColor)
+        if self.visible:
+            libtcod.console_put_char_ex(console, self.x, self.y, self.symbol,
+                                        self.frontColor, self.backColor)
 
     # Movement function. Checks for nothing with X,Y so avoid passing
     # bad values.
