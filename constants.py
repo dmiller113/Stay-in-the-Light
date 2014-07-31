@@ -5,3 +5,4 @@ mapHeight = 40
 mapWidth = 60
 fontName = "consolas10x10.png"
 root = 0
+debugRandomSeed = 113113113

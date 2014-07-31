@@ -2,8 +2,8 @@
 #------------------------------------------------------------------------------
 import constants as const
 import libtcodpy as libtcod
-from actor import Actor
 from map import Tile, Map
+import math
 
 #Global
 #------------------------------------------------------------------------------
@@ -15,11 +15,17 @@ class Engine:
 	# Constructor
 	# Takes nothing so far.
 	#----------------------------------------------------------------------------
-	def __init__(self):
-		self.player = Actor(const.mapWidth/2, const.mapHeight/2)
+	def setup(self):
+		import actor
+		import lightSource as light
+		self.player = actor.Actor(const.mapWidth/2, const.mapHeight/2)
 		self.curMap = Map()
+		x = actor.Actor(4,5)
+		y = light.LightSource()
+		x.addComponent(y)
+
 	#Draw function
-	# Takes nothing.
+	#Takes nothing.
 	#----------------------------------------------------------------------------
 	def drawFrame(self):
 		# Setup some offscreen consoles for each element of the UI (Map, status,
@@ -78,8 +84,53 @@ class Engine:
 
 		libtcod.console_flush()
 
+	#Checks that the specified tile is a tile can be walked on.
+	#Takes the x,y coord of the tile
+	#Returns true if the tile is a valid tile, and could be walked on.
+	#----------------------------------------------------------------------------
 	def isTileWalkable(self, tileX, tileY):
-		if( (tileY < const.mapHeight and tileY >= 0) and (tileX < const.mapWidth and tileX >= 0)):
+		if( (tileY < const.mapHeight and tileY >= 0) and (tileX < const.mapWidth
+		and tileX >= 0)):
 			return not self.curMap.curMap[tileX][tileY].blocking
 
+	#Finds the distance between two tiles.
+	#Takes the x,y coords of two tiles, in (x1, y1, x2, y2) order
+	#Returns the distance between the tiles
+	#----------------------------------------------------------------------------
+	def findDistance(self, tileX1, tileY1, tileX2, tileY2):
+		distance = math.sqrt((tileX1 - tileX2)**2 + (tileY1 - tileY2)**2)
+		return distance
+
+	#Grabs a circular area of tiles based upon a center and a radius.
+	#Takes the x,y coords of the center tile and the radius. Radius 1 returns
+	#only the center tile.
+	#Returns a list of tiles in the area
+	#----------------------------------------------------------------------------
+	def findArea(self, tileX, tileY, radius = 2):
+		radius -= 1
+		if( (tileX - radius < 0 or tileX + (radius + 1) >= const.mapWidth)
+		or (tileY - radius < 0 or tileY + (radius + 1) >= const.mapHeight) ):
+			return None
+		returnList = []
+		#This method is pretty bad for anything larger than radius 4
+		for x in range( (tileX - radius), (tileX + (radius + 1)) ):
+			for y in range( (tileY - radius), (tileY + (radius + 1)) ):
+				if self.findDistance(tileX, tileY, x, y) <= radius:
+					returnList.append(self.curMap.curMap[x][y])
+		return returnList
+	#Grabs a circular area of tiles based upon a center and a radius.
+	#Takes the x,y coords of the center tile and the radius.
+	#Sets the passed lightMap to the region made in the function
+	#----------------------------------------------------------------------------
+	def findLightingMap(self, centerX, centerY, radius = 2, lightMap = None):
+		if lightMap is None:
+			return
+		curMap = self.curMap.curMap
+		lightMap = libtcod.map_new(radius*2, radius*2)
+		for x in range( (tileX - radius), (tileX + (radius + 1)) ):
+			for y in range( (tileY - radius), (tileY + (radius + 1)) ):
+				libtcod.map_set_properties(lightMap, x, y, curMap[x][y].transparent,
+					(not curMap[x][y].blocking) )
+
 gEngine = Engine()
+gEngine.setup()

@@ -27,6 +27,12 @@ def gameLoop():
 		key = libtcod.console_check_for_keypress(libtcod.KEY_PRESSED)
 		handleInput(key)
 
+def funkyLight():
+	tiles = gEngine.findArea(22,30,9)
+	for tile in tiles:
+		tile.foreColor = libtcod.orange
+		tile.backColor = libtcod.blue
+
 # Player input handling (Temp, replaced once AI is implimented)
 # -----------------------------------------------------------------------------
 def handleInput(key):
@@ -51,7 +57,8 @@ def handleInput(key):
 			playerState = "moving"
 		elif key.c == ord('q'):
 			gameState = "gameDone"
-
+		elif key.c == ord('l'):
+			funkyLight()
 		if(playerState == "moving"):
 			if( gEngine.isTileWalkable(cx + gEngine.player.x, cy + gEngine.player.y) ):
 				playerState = "moved"
