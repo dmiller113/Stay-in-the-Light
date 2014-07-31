@@ -27,7 +27,7 @@ class Engine:
         self.player = actor.Actor(const.mapWidth / 2, const.mapHeight / 2)
         self.curMap = Map()
         self.player.ID_ = "player"
-        x = actor.Actor(4, 5, '*')
+        x = actor.Actor(14, 15, '*')
         y = light.LightSource()
         x.addComponent(y)
         x.register()

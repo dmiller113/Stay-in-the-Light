@@ -47,3 +47,19 @@ class LightSource:
         parent = self.parent
         gEngine.findLightingMap(
             parent.x, parent.y, self.distance, self.light_map)
+
+    # Lighting calculation function. Gets called during the map drawing
+    # phase to determine how to add the light source's light to the map.
+    def calculate_lighting(self):
+        # Figure out if the current FoV map around this light source needs
+        # recalculating
+        if self.needs_remapping:
+            # Recalculate the array that holds the information of visibility
+            # of tiles around this model.
+            pass
+        # For tiles around this light, calculate the color and intensity of the
+        # light. Calculation is multiplication of the color of the tile's fore
+        # ground and the light's color. Intensity is the multiplication of the
+        # light and the tile's light intensity. If the tile is not in FoV to
+        # the light, don't touch that tile.
+        pass

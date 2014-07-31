@@ -25,7 +25,7 @@ class Tile:
             self.transparent = transparent
             self.seen = seen
             self.light_level = 0.5
-            self.light_list = 0
+            self.light_list = []
         else:
             print setType
 
